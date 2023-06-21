@@ -11,10 +11,11 @@
   },
   "content_scripts": [
     {
-      "js": ["./libraries/alea.min.js"],
+      "js": ["./libraries/seedrandom.min.js"],
       "matches": ["<all_urls>"]
     }
   ],
-  "background": { "service_worker": "./scripts/main.js", "type": "module" },
-  "permissions": ["scripting", "activeTab", "tabs"]
+  "background": { "service_worker": "./background.js", "type": "module" },
+  "permissions": ["scripting", "activeTab", "tabs"],
+  "host_permissions": ["https://*/*", "http://*/*"]
 }

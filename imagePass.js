@@ -16,15 +16,17 @@ const CheckPassfield = () => {
 const ReplacePasswordField = (field) => {
     let classes = field.classList;
     let styles = field.style;
-    let id = field.id;
+    let id = field.id || null;
+    let name = field.id === null ? field.name : null;
     const NewPasswordField = document.createElement("input");
-    NewPasswordField.type = "image";
+    NewPasswordField.type = "file";
     NewPasswordField.style = styles;
     NewPasswordField.classList = classes;
-    NewPasswordField.id = id + "-image-field";
-    NewPasswordField.parentId = id;
+    NewPasswordField.id = (id !== null ? id : name) + "-image-field";
+    NewPasswordField.parentId = id !== null ? id : name;
+    NewPasswordField.idType = id !== null ? "id" : "name";
     NewPasswordField.addEventListener("change", ReadImageAsText);
-    field.parentElement.appendChild(NewPasswordField);
+    field.parentNode.insertBefore(NewPasswordField, field);
     field.style.display = "none";
 };
 
@@ -34,7 +36,7 @@ const ReadImageAsText = (evt) => {
     let reader = new FileReader();
     reader.onloadend = function () {
         let newPassword = GenerateNewPassword(reader.result);
-        let oldPasswordField = document.getElementById(newPasswordField.parentId);
+        let oldPasswordField = newPasswordField.idType === "id" ? document.getElementById(newPasswordField.parentId) : document.getElementsByName(newPasswordField.parentId)[0];
         oldPasswordField.value = newPassword;
     };
     reader.readAsDataURL(image);
@@ -43,14 +45,11 @@ const ReadImageAsText = (evt) => {
 const GenerateNewPassword = (seed) => {
     let newRng = new Math.seedrandom(seed);
     let newPassword = "";
-    let length = 128;
+    let length = 32;
     for (var i = 0, n = characters.length; i < length; ++i) {
         newPassword += characters.charAt(Math.floor(newRng() * n));
     }
     return newPassword;
 };
 
-chrome.scripting.executeScript({
-    target: { tabId: GetCurrentTabId() },
-    function: CheckPassfield,
-});
+CheckPassfield();
