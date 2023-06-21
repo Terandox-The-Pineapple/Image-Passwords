@@ -16,6 +16,7 @@
     }
   ],
   "background": { "service_worker": "./background.js", "type": "module" },
-  "permissions": ["scripting", "activeTab", "tabs"],
-  "host_permissions": ["https://*/*", "http://*/*"]
+  "permissions": ["scripting", "activeTab", "tabs", "storage"],
+  "host_permissions": ["https://*/*", "http://*/*"],
+  "options_ui": { "page": "./options.html", "open_in_tab": false }
 }

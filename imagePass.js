@@ -44,13 +44,15 @@ const ReadImageAsText = (evt) => {
 };
 
 const GenerateNewPassword = (seed) => {
-    let newRng = new Math.seedrandom(seed);
-    let newPassword = "";
-    let length = 32;
-    for (var i = 0, n = iPCharacters.length; i < length; ++i) {
-        newPassword += iPCharacters.charAt(Math.floor(newRng() * n));
-    }
-    return newPassword;
+    return chrome.storage.sync.get({ passLength: 32 }, (items) => {
+        let length = items.passLength;
+        let newRng = new Math.seedrandom(seed);
+        let newPassword = "";
+        for (var i = 0, n = iPCharacters.length; i < length; ++i) {
+            newPassword += iPCharacters.charAt(Math.floor(newRng() * n));
+        }
+        return newPassword;
+    });
 };
 
 CheckPassfield();
