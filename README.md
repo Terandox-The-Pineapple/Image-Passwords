@@ -8,4 +8,9 @@ It replaces every password input on all websites with an file input for images. 
 
 ## How can i install it?
 
-I will but it in the chrome store soon, but at the moment your only option is to download the entire repository, go to the extension management tab of your browser, enable developer mode and add it with the "Load Unpacked Extension" option.
+1. Download the .zip file the releases page
+2. Unzip it to an empty folder
+3. Open the extension management page of your chromium based browser
+4. Enable developer mode
+5. Add the folder via the "Load Unpacked Extension" option
+6. enjoy
